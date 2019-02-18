@@ -1,0 +1,249 @@
+---
+output: pdf_document
+latex_engine: xelatex
+---
+
+\begin{center}
+
+  \Large Hypothesis Testing with R
+   
+  \large Fisher Ankney
+
+\end{center}
+
+## Statistical Packages
+
+```{r message=F, warning=FALSE}
+library('tidyverse') # general use 
+library('mosaic') # for plotting TukeyHSD
+```
+
+\hfill
+
+## Visualizations
+
+Always visualize the data before preforming statistical analysis. I'm using the iris dataset found in base R. 
+
+\hfill
+
+```{r}
+ggplot(iris, aes(x = Sepal.Width)) + 
+  geom_density(aes(group = Species, color = Species, fill = Species), alpha = 0.3)
+```
+
+\pagebreak
+
+```{r}
+ggplot(iris, aes(x = Petal.Width)) + 
+  geom_density(aes(group = Species, color = Species, fill = Species), alpha = 0.3)
+```
+
+\pagebreak
+
+## F Test to Compare Two Variances
+
+\textbf{Purpose}: Make inference on two population variances. 
+
+\hfill
+
+\textbf{Assumptions}:
+
+1. The samples are independent.
+2. The distributions of the two populations are approximately normal. 
+
+\hfill
+
+\textbf{Mathematics}:
+
+$$ F = \frac{s_{max}^2}{s_{min}^2}$$
+
+
+where
+
+$$ \frac{df_{numer}}{df_{denom}} $$
+
+\hfill
+
+\textbf{Notes}: Always a one tailed test using the F distribution. Can be understood as between group variability divided by within group variability. Also the basis of ANOVA. 
+
+\hfill
+
+\textbf{Code}:
+
+```{r}
+var.test(iris$Sepal.Width, iris$Petal.Width)
+```
+
+\pagebreak
+
+### t Test to Compare Two Means
+
+\textbf{Purpose}: To make inference on one or two population means. 
+
+\hfill
+
+\textbf{Assumptions}:
+
+Single population - 
+
+1. observations are independent.
+2. variables must be continuous. 
+
+Pooled (var.equal = T) - 
+
+1. the two samples are independent. 
+2. The distributions are normal or of such size that CLM is applicable. 
+3. The variances are equal. 
+
+Paired (paired = T) - 
+
+2. The observations are paired. 
+2. The distribution of the differences is normal or of such size that CLM is applicable. 
+
+\hfill
+
+\textbf{Mathematics}:
+
+One population - 
+
+$$ t = \frac{\bar{y} - \mu_o}{s / \sqrt(n)}$$
+
+where: 
+
+$$ df = n - 1 $$
+
+Two population (pooled t)- 
+
+$$t = \frac{(\bar{y_1} - \bar{y_2} - \delta_o)}{\sqrt(s_p^2 / n_1) - (s_p^2 / n_2)}$$
+
+where 
+
+$$ s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{(n_1 - 1) + (n_2 -1)}$$
+
+Satterthwaite (variance unequal) - 
+
+$$ t' = \frac{(\bar{y_1} - \bar{y_2} - \delta_o)}{\sqrt{(s_1^2/n1) - (s_2^2 / n_2)}}$$
+
+where 
+
+\begin{center}
+Degrees of freedom are too tedious. 
+\end{center}
+
+Paired (paired = T) - 
+
+$$ t = \frac{\bar{d} - \delta_o}{\sqrt{s_d^2 / n}}$$
+
+where
+
+\begin{center}
+$s_d$ is the estimated variance of the differences
+\end{center}
+
+\hfill
+
+\textbf{Notes}:
+
+If the alternative hypothesis is $\mu_1 > \mu_2$ use alternative = 'greater'. 
+
+\textbf{Code}:
+
+```{r}
+t.test(iris$Sepal.Length, iris$Petal.Length,
+       alternative = 'two.sided',
+       var.equal = T,
+       paired = F)
+```
+
+\pagebreak
+
+### QQ-Plot
+
+\textbf{Purpose}: The quantile-quantile plot visualizes distribution assumptions.
+
+\hfill
+
+\textbf{Mathematics}: compares data quantiles to distribution quantiles or each other to see if they match (make a straight line). 
+
+\hfill
+
+\textbf{Code}:
+
+```{r}
+qqnorm(iris$Sepal.Length)
+qqline(iris$Sepal.Length)
+```
+
+\pagebreak
+
+### ANOVA to Compare Multiple Means 
+
+\textbf{Purpose}: To analyze variance within and between groups, making inference on group mean's equaility. 
+
+\hfill
+
+\textbf{Assumptions}: 
+
+1. The observations are iid normal
+2. The populations have a common variance 
+
+\hfill
+
+\textbf{Mathematics}: 
+
+$$y_{ij} = \mu_{ij} + \tau_{ij} + \epsilon_{ij}$$
+
+Sum Square Species: 
+
+Sum Square Residual:
+
+Mean Square Species:
+
+Mean Square Residual:
+
+F value: 
+
+P-value: 
+
+\hfill
+
+Code:
+
+```{r}
+ANOVA <- aov(Sepal.Width ~ Species, data = iris)
+summary(ANOVA)
+```
+
+\pagebreak
+
+### Post Hoc: Tukey multiple pairwise-comparisons
+
+\textbf{Purpose}: After an ANOVA test returns significant, Tukey's HSD creates groupings of popuations with similar means. 
+
+\hfill
+
+\textbf{Assumptions}:
+
+1. ANOVA returned significant. 
+
+\hfill
+
+\textbf{Mathematics}:
+
+\hfill
+
+\textbf{Code}:
+
+```{r}
+TukeyHSD(ANOVA)
+```
+
+\hfill
+
+```{r}
+mplot(TukeyHSD(ANOVA), system = 'ggplot')
+```
+
+\pagebreak
+
+
