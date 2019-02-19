@@ -1,0 +1,42 @@
+---
+title: "Post-Hoc Analysis"
+output: html_document
+---
+
+```{r, message = F}
+library('mosaic')
+```
+
+<br> 
+
+### Purpose
+
+After an ANOVA test returns significant, Tukey's HSD creates groupings of popuations with similar means. 
+
+<br> 
+
+### Assumptions
+
+1. ANOVA returned significant. 
+
+<br> 
+
+### Code
+
+```{r}
+ANOVA <- aov(Sepal.Width ~ Species, data = iris)
+
+TukeyHSD(ANOVA)
+```
+
+<br> 
+
+### Visualization 
+
+```{r}
+mplot(TukeyHSD(ANOVA), system = 'ggplot')
+```
+
+
+
+

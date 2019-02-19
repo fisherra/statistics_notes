@@ -1,0 +1,43 @@
+---
+title: "One Sample t-Test"
+output: html_document
+---
+
+<br> 
+
+## Assumptions
+
+1. observations are independent.
+2. variables must be continuous. 
+
+<br> 
+
+### Mathematical Model
+
+$$ t = \frac{\bar{y} - \mu_o}{s / \sqrt{n}}$$
+
+where: 
+
+$df = n - 1$
+
+<br> 
+
+### Notes
+
+If the alternative hypothesis is $\mu_1 > \mu_2$ use alternative = 'greater'. 
+
+<br> 
+
+### Code
+
+```{r}
+t.test(iris$Sepal.Length)
+```
+
+
+### Distribution
+
+relationship to the z and chi square
+
+visual
+

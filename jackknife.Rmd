@@ -1,0 +1,4 @@
+---
+title: "Jackknife Resampling Method"
+output: html_document
+---

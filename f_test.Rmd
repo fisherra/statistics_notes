@@ -1,0 +1,45 @@
+---
+title: "F-test"
+output: html_document
+---
+
+
+## F Test to Compare Two Variances
+
+<br>
+
+### Purpose
+
+Make inference on two population variances. 
+
+<br>
+
+### Assumptions
+
+1. The samples are independent.
+2. The distributions of the two populations are approximately normal. 
+
+<br>
+
+### Mathematics
+
+$$ F = \frac{s_{max}^2}{s_{min}^2}$$
+
+<br>
+
+where
+
+$$ \frac{df_{numer}}{df_{denom}} $$
+
+<br>
+
+Notes: Always a one tailed test using the F distribution. Can be understood as between group variability divided by within group variability. Also the basis of ANOVA. 
+
+<br>
+
+
+### Code
+
+```{r}
+var.test(iris$Sepal.Width, iris$Petal.Width)
+```

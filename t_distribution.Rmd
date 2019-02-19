@@ -1,0 +1,10 @@
+---
+title: "t Distribution"
+output: html_document
+---
+
+### Distribution
+
+relationship to the z and chi square
+
+visual

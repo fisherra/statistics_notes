@@ -1,0 +1,41 @@
+---
+title: "Pooled Variance t-Test"
+output: html_document
+---
+
+
+### Assumptions
+
+1. the two samples are independent. 
+2. The distributions are normal or of such size that CLM is applicable. 
+3. The variances are equal. 
+
+<br>
+
+### Mathematical Model
+
+$$t = \frac{(\bar{y_1} - \bar{y_2} - \delta_o)}{\sqrt{(s_p^2 / n_1) - (s_p^2 / n_2)}}$$
+
+where 
+
+$$ s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{(n_1 - 1) + (n_2 -1)}$$
+
+
+<br> 
+
+### Notes
+
+If the alternative hypothesis is $\mu_1 > \mu_2$ use alternative = 'greater'. 
+
+<br> 
+
+### Code
+
+```{r}
+t.test(iris$Sepal.Length, iris$Petal.Length,
+       alternative = 'two.sided',
+       var.equal = T,
+       paired = F)
+```
+
+

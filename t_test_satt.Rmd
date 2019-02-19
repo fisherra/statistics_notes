@@ -1,0 +1,37 @@
+---
+title: "Satterthwaite t-Test"
+output: html_document
+---
+
+
+### Assumption
+
+1. independence
+2. unequal variance
+3. normality
+
+
+<br> 
+
+### Mathematical Model
+
+$$ t' = \frac{(\bar{y_1} - \bar{y_2} - \delta_o)}{\sqrt{(s_1^2/n1) - (s_2^2 / n_2)}}$$
+
+<br>
+
+### Notes
+
+If the alternative hypothesis is $\mu_1 > \mu_2$ use alternative = 'greater'. 
+
+<br>
+
+### Code
+
+```{r}
+t.test(iris$Sepal.Length, iris$Petal.Length,
+       alternative = 'two.sided',
+       var.equal = F,
+       paired = F, 
+       method = 'Satterthwaite')
+```
+

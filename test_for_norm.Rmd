@@ -1,0 +1,25 @@
+---
+title: "Test for Normality"
+output: html_document
+---
+
+
+
+### QQ-Plot
+
+\textbf{Purpose}: The quantile-quantile plot visualizes distribution assumptions.
+
+\hfill
+
+\textbf{Mathematics}: compares data quantiles to distribution quantiles or each other to see if they match (make a straight line). 
+
+\hfill
+
+\textbf{Code}:
+
+```{r}
+qqnorm(iris$Sepal.Length)
+qqline(iris$Sepal.Length)
+```
+
+\pagebreak

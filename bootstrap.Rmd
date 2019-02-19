@@ -1,0 +1,99 @@
+---
+title: "Bootstrap Resampling Method"
+output: html_document
+---
+
+<br> 
+
+Two step process. First - know your parameter of interest. Second - use the boot function. 
+
+<br> 
+
+```{r}
+library('boot') # for boot()
+library('ISLR') # for portfolio data
+```
+
+<br>
+
+Create function - 
+
+```{r}
+alpha.fn <- function(data, index) {
+  X=data$X[index]
+  Y=data$Y[index]
+  return((var(Y)-cov(X,Y))/(var(X)+var(Y)-2*cov(X,Y)))
+}
+```
+
+<br> 
+
+Test function - 
+
+```{r}
+alpha.fn(Portfolio, 1:100)
+```
+
+<br> 
+
+sampling with replacement is basically creating a bootstrap
+
+```{r}
+set.seed(1)
+alpha.fn(Portfolio, sample(100, 100, replace = T))
+```
+
+<br> 
+
+We can do this many times and record all of the output values. the boot function automates this process.
+
+```{r}
+boot(Portfolio, alpha.fn, 1000)
+```
+
+<br> 
+
+This returns the original alpha calculation based on the real dataset, and a standard error estimate of this calculation based on the 1000 bootstraps. 
+
+<br>
+
+## Estimating Accuracy of a Linear Model 
+
+<br> 
+
+Just how good are $\beta_0$ and $\beta_1$ anyways?
+
+```{r}
+# create a bootstrap function for coefficients of linear model 
+boot.fn <- function(data, index) {
+  return(coef(lm(mpg ~ horsepower, data = data, subset = index)))
+}
+
+# test function
+boot.fn(Auto, 1:392)
+```
+
+<br> 
+
+The above is just returning the coeffificents of the linear model based on the entire auto dataset, observations 1 - 392. But we can use this function to return bootstrap coefficients. 
+
+<br> 
+
+```{r}
+set.seed(1)
+boot.fn(Auto, sample(392, 392, replace = T))
+boot.fn(Auto, sample(392, 392, replace = T))
+```
+
+<br> 
+
+Now let's bring out the big guns - the boot() function. 
+
+```{r}
+boot(Auto, boot.fn, 1000)
+```
+
+<br> 
+
+This bootstrap estimate for the standard error of the intercept is 0.86, and the standard error of $\beta_1$, the slope, is 0.007. 
+

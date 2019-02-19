@@ -1,0 +1,56 @@
+---
+title: 'Analysis of Variance'
+output: html_document
+---
+
+### Purpose
+
+To analyze variance within and between groups, making inference on group mean's equaility.
+
+<br>
+
+### Assumptions
+
+1. The observations are iid normal
+2. The populations have a common variance 
+
+
+<br>
+
+### Mathematical Model
+
+
+$$y_{ij} = \mu_{ij} + \tau_{ij} + \epsilon_{ij}$$
+
+<br>
+
+### Code
+
+
+```{r}
+# data
+area_a <- c(2.92, 1.88, 5.35, 3.81, 4.69, 4.86, 5.81, 5.55)
+area_b <- c(1.84, 0.95, 4.26, 3.18, 3.44, 3.69, 4.95, 4.47)
+
+# format for anova and regression
+area_df <- data.frame(values = c(area_a, area_b),
+                      area = c(rep('a',8), rep('b',8))
+                      )
+
+# anova test
+anova_out <- anova(lm(values ~ area, data = area_df))
+anova_out
+```
+
+<br>
+
+### Visualization
+
+```{r}
+boxplot(area_df$values ~ area_df$area)
+```
+
+
+
+
+

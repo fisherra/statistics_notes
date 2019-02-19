@@ -1,0 +1,40 @@
+---
+title: "Paired t-Test"
+output: html_document
+---
+
+### Assumptions
+
+2. The observations are paired. 
+2. The distribution of the differences is normal or of such size that CLM is applicable. 
+
+<br> 
+
+### Mathematical Model
+
+$$ t = \frac{\bar{d} - \delta_o}{\sqrt{s_d^2 / n}}$$
+
+where:
+
+$s_d$ is the estimated variance of the differences
+
+
+<br> 
+
+### Notes
+
+If the alternative hypothesis is $\mu_1 > \mu_2$ use alternative = 'greater'. 
+
+
+<br> 
+
+### Code
+
+```{r}
+t.test(iris$Sepal.Length, iris$Petal.Length,
+       alternative = 'two.sided',
+       var.equal = T,
+       paired = F)
+```
+
+
